@@ -1,0 +1,19 @@
+<h1>Admin</h1>
+<ul>
+    <li>
+      <a [routerLink]="['/home']" routerLinkActive="router-link-active" >
+        Home
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active" >
+        Dashboard
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/admin/users']" routerLinkActive="router-link-active" >
+        Usuarios
+      </a>
+    </li>
+  </ul>
+<router-outlet></router-outlet>
