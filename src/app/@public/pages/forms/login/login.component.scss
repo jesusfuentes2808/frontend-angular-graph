@@ -1,0 +1,13 @@
+@import "./../../../../../assets/styles/forms.scss";
+
+.container .row{
+    margin-top: 40px;
+}
+
+.is-valid{
+    border: 1px solid green !important;
+}
+
+.is-invalid{
+    border: 1px solid red !important;
+}

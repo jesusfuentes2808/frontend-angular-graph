@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg"></div>
+        <div class="col-lg-6">
+            <form (ngSubmit)="init()" #forma='ngForm'>
+                <h1>Inicio de sesión</h1>
+                <p>Introduzca los credenciales para iniciar la sesión</p>
+                <p class="psw">
+                    ¿No tienes cuenta? Entra
+                    <a href="#">aquí</a> para crearla gratis
+                </p>
+                <hr />
+                <label for="uname"><b>Correo electrónico</b></label>
+                <input 
+                        pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                        type="email" 
+                        #email="ngModel"
+                        [(ngModel)]="login.email"
+                        placeholder="Introduzca la correo electrónico" 
+                        name="email" 
+                        required 
+                        [ngClass]="{'is-valid': !email.invalid, 'is-invalid': email.invalid}"
+                        />
+                <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                    <div *ngIf="email.errors.required">
+                        Ingresar un email 
+                    </div>
+                    <div *ngIf="email.errors && email.errors.pattern">
+                        Ingresar un email válido (xxxxx@gsss.com)
+                    </div>
+                </div>
+
+                <label for="psw"><b>Contraseña</b></label>
+                <input type="password" 
+                        #password="ngModel"
+                        [(ngModel)]="login.password"
+                        placeholder="Introduzca la contraseña" 
+                        name="psw" 
+                        required 
+                        [ngClass]="{'is-valid': !password.invalid, 'is-invalid': password.invalid}"
+                        />
+                <div class="alert alert-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+                    <div *ngIf="password.errors.required">
+                        Ingresar una contraseña 
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg">
+                        <button [disabled]="!forma.valid" type="submit" class="signup-btn">Iniciar sesión</button>
+                    </div>
+                </div>
+                <div class="more-options">
+                    <p class="psw">
+                        ¿Has olvidado la <a [routerLink]="['/forgot']">contraseña?</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg"></div>
+    </div>
+</div>
