@@ -17,13 +17,13 @@ export class HomeComponent implements OnInit {
       console.log(result);
     });
 
-    this.usersApi.getUsers().subscribe(result => {
+    this.usersApi.getUsers(2, 1).subscribe(result => {
       console.log(result);
     });
 
-    this.authApi.getMe().subscribe(result => {
+    /*this.authApi.getMe().subscribe(result => {
       console.log(result);
-    });
+    });*/
   }
 
 }

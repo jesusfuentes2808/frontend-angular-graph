@@ -1,49 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import {DocumentNode} from "graphql";
 import {IResultData} from "@core/interfaces/result-data.interface";
-import {USERS_LIST_QUERY} from "@graphql/operations/query/user";
+import {GENRE_LIST_QUERY} from "@graphql/operations/query/genre";
 import {ITableColumns} from "@core/interfaces/table-columns.interface";
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-genres',
+  templateUrl: './genres.component.html',
+  styleUrls: ['./genres.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class GenresComponent implements OnInit {
 
-  query: DocumentNode;
+  query: DocumentNode = GENRE_LIST_QUERY;
   context: object;
   itemsPage: number;
   resultData: IResultData;
   include: boolean;
   columns: Array<ITableColumns>;
-
   constructor() { }
 
   ngOnInit(): void {
-    this.query = USERS_LIST_QUERY;
     this.context={};
-    this.itemsPage = 1;
+    this.itemsPage = 10;
     this.resultData = {
-      definitionKey: 'users',
-      listKey: 'users',
+      definitionKey: 'genres',
+      listKey: 'genres',
     }
-    this.include = true;
+    this.include = false;
     this.columns = [{
       property: 'id',
       label: '#'
     }, {
       property: 'name',
-      label: 'Nombre'
+      label: 'Nombre de género'
     }, {
-      property: 'lastname',
-      label: 'Apellidos'
-    }, {
-      property: 'email',
-      label: 'Email'
-    }, {
-      property: 'role',
-      label: 'Permiso'
+      property: 'slug',
+      label: 'Slug'
     }];
   }
 
