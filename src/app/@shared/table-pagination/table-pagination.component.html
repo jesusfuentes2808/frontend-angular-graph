@@ -1,14 +1,36 @@
+<button class="btn btn-success float-right mb-3 mr-2"
+        (click)="manageAction('add','')"
+>
+  <i class="fa fa-plus-circle" style="margin-right: 10px"></i>Añadir
+</button>
 <div class="table table-responsive">
   <table class="table table-striped">
     <thead>
     <tr>
       <th scope="col" *ngFor="let column of tableColumns">{{column.label}}</th>
+      <th>Gestionar información</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of data$ | async">
       <th scope="col" *ngFor="let val of tableColumns">{{data[val.property]}}</th>
-
+      <th scope="col" >
+        <button class="btn btn-secondary mr-2"
+                (click)="manageAction('edit', data)"
+        >
+          <i class="fa fa-edit" style="margin-right: 10px"></i>
+        </button>
+        <button class="btn btn-info mr-2"
+                (click)="manageAction('info',data)"
+        >
+          <i class="fa fa-info" style="margin-right: 10px"></i>
+        </button>
+        <button class="btn btn-danger mr-2"
+                (click)="manageAction('block',data)"
+        >
+          <i class="fa fa-lock" style="margin-right: 10px"></i>
+        </button>
+      </th>
     </tr>
     </tbody>
   </table>
