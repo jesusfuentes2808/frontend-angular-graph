@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 export function basicAlert(icon = TYPE_ALERT.SUCCESS, title){
     Swal.fire({
         title,
-        position: 'top-end',
+        position: 'top',
         icon,
         confirmButtonText: 'X',
         showConfirmButton: false,

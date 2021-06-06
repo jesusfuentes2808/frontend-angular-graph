@@ -31,6 +31,12 @@ textarea {
   cursor: not-allowed
 }
 
+
+.signup-btn:active {
+  background-color: #235623;
+  cursor: not-allowed
+}
+
 .signup-btn:hover, .cancel-btn:hover {
   opacity: 1;
 }
@@ -61,4 +67,8 @@ textarea {
   .cancel-btn, .signup-btn {
     width: 100%;
   }
+}
+
+.container{
+  margin-top: 100px;
 }

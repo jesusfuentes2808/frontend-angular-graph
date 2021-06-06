@@ -4,7 +4,8 @@ import { Apollo } from 'apollo-angular';
 import { ApiService } from './../../@graphql/services/api.service';
 import { Injectable } from '@angular/core';
 import {IRegisterForm} from '@core/interfaces/register.interface';
-import {REGISTER_USER} from '@graphql/operations/mutation/user';
+import {ACTIVE_USER, REGISTER_USER} from '@graphql/operations/mutation/user';
+import {HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,24 @@ export class UsersService  extends ApiService{
         return result.register;
       })
     );
+  }
+
+  active(token: string, birthday: string, password: string){
+    const user = JSON.parse(atob(token.split('.')[1])).user;
+    //console.log(atob(token));
+    return this.set(ACTIVE_USER, {
+      id: user.id,
+      birthday,
+      password
+    },{
+      headers: new HttpHeaders({
+        Authorization: token
+      })
+    }).pipe(
+      map((result: any) => {
+        return result.activeUserAction;
+      })
+    );
+
   }
 }

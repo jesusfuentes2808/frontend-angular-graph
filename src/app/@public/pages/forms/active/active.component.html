@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+
+    </div>
+    <div class="col-6">
+      <form action="" (ngSubmit)="add()" #forma="ngForm">
+        <h1>Activar cuenta</h1>
+        <p>Introduzca los credenciales para iniciar la sesión</p>
+        <label><b>Fecha de nacimiento</b></label>
+        <app-datepicker-legal-age
+          (newDate)="dataAsign($event)">
+        </app-datepicker-legal-age>
+
+        <label for="password"><b>Password</b></label>
+        <input
+          #password="ngModel"
+          id="password"
+          class="form-control"
+          [(ngModel)]="values.password"
+          type="password"
+          placeholder="Enter Password"
+          [ngClass]="{'is-valid': password.valid, 'is-invalid': password.invalid}"
+          required
+          name="password"
+        />
+        <div class="alert alert-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+          <div *ngIf="password.errors.required">
+            Ingresar password
+          </div>
+        </div>
+        <label for="passwordTwo"><b>Password</b></label>
+        <input
+          #passwordTwo="ngModel"
+          id="passwordTwo"
+          class="form-control"
+          [(ngModel)]="values.passwordTwo"
+          type="password"
+          placeholder="Enter Password"
+          [ngClass]="{'is-valid': passwordTwo.valid, 'is-invalid': passwordTwo.invalid}"
+          required
+          name="passwordTwo"
+        />
+        <div class="alert alert-danger" *ngIf="passwordTwo.invalid && (passwordTwo.dirty || passwordTwo.touched)">
+          <div *ngIf="passwordTwo.errors.required">
+            Ingresar un apellido(s)
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg">
+            <button [disabled]="!forma.valid" type="submit" class="signup-btn">
+              Activar usuario
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-3">
+
+    </div>
+  </div>
+</div>

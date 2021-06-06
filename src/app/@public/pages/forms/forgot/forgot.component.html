@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg"></div>
+    <div class="col-lg-6">
+      <form (ngSubmit)="reset()" #forma="ngForm">
+        <h2>Añade tu correo electrónico</h2>
+        <p>
+          Te enviaremos un enlace a tu correo electrónico para resetear tu
+          contraseña y cambiarlo
+        </p>
+        <hr />
+        <div class="row">
+          <div class="col-lg">
+            <label for="email">Correo electrónico</label>
+            <input
+              pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+              type="email"
+              #email="ngModel"
+              [(ngModel)]="emailValue"
+              placeholder="Introduzca la correo electrónico"
+              name="email"
+              id="email"
+              required
+              [ngClass]="{'is-valid': !email.invalid, 'is-invalid': email.invalid}"
+            />
+            <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+              <div *ngIf="email.errors.required">
+                Ingresar un email
+              </div>
+              <div *ngIf="email.errors && email.errors.pattern">
+                Ingresar un email válido (xxxxx@gsss.com)
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg">
+                <button [disabled]="!forma.valid" type="submit" class="signup-btn">Resetear contraseña</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg"></div>
+  </div>
+</div>
