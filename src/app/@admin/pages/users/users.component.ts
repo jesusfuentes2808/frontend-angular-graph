@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DocumentNode} from "graphql";
 import {IResultData} from "@core/interfaces/result-data.interface";
 import {USERS_LIST_QUERY} from "@graphql/operations/query/user";
@@ -9,6 +9,7 @@ import {UsersAdminService} from "@admin/pages/users/users-admin.service";
 import {IRegisterForm} from "@core/interfaces/register.interface";
 import {basicAlert} from "@shared/alerts/toasts";
 import {TYPE_ALERT} from "@shared/alerts/values.config";
+import {ACTIVE_FILTERS} from "@core/constants/filters";
 
 @Component({
   selector: 'app-users',
@@ -23,6 +24,7 @@ export class UsersComponent implements OnInit {
   resultData: IResultData;
   include: boolean;
   columns: Array<ITableColumns>;
+  filterActiveValues = ACTIVE_FILTERS.ACTIVE;
 
   constructor(private service: UsersAdminService) { }
 
@@ -50,6 +52,9 @@ export class UsersComponent implements OnInit {
     }, {
       property: 'role',
       label: 'Permiso'
+    }, {
+      property: 'active',
+      label: '¿Activo?'
     }];
   }
 
@@ -89,17 +94,25 @@ export class UsersComponent implements OnInit {
           'Detalles',
           `${user.name} ${user.lastname} <br>
                 <i class="fas fa-envelope-open-text"></i>&nbsp;&nbsp;${user.email}`,
-          350);
+          (user.active !== false) ? 350 : 400,
+          '<i class="fas fa-edit"></i> Editar',
+          (user.active !== false) ?
+                  '<i class="fas fa-lock"></i> Bloquear':
+                  '<i class="fas fa-lock"></i> Desbloquear'
+          );
 
         if(result){
           this.updateForm(html, user);
         } else if(result === false) {
-          this.blockUser(user.id);
+          this.unblockForm(user.id, false);
         }
 
         break;
       case 'block':
-        await this.blockForm(user);
+        await this.unblockForm(user, false);
+        break;
+      case 'unblock':
+        await this.unblockForm(user, true);
         break;
       default:
         break;
@@ -117,22 +130,28 @@ export class UsersComponent implements OnInit {
     this.updateUser(result, user.id);
   }
 
-  private async blockForm(user){
-    console.log("TEST");
-    console.log(user);
-    const result = await optionsWithDetails('Estas seguro que quieres bloquear el usuario?', `Si bloqueas el item no aparecera en la lista`,
+  private async unblockForm(user, unblock){
+    const result = (unblock) ?
+    await optionsWithDetails('Desbloquear?',
+      `Si desbloqueas el usuario aparecera en la lista y podrá realizar compras`,
       400,
-      'No, bloquear',
-      'Si, bloquear'
-    );
+      'No, no desbloquear',
+      'Si, desbloquear'
+    )
+      :
+      await optionsWithDetails('Estas seguro que quieres bloquear el usuario?', `Si bloqueas el item no aparecera en la lista`,
+        500,
+        'No, bloquear',
+        'Si, bloquear'
+      );
 
     if(result === false){
-      this.blockUser(user.id);
+      this.unblockUser(user.id, unblock, true);
     }
   }
 
-  private blockUser(id){
-    this.service.block(id).subscribe(
+  private unblockUser(id, unblock: boolean = false, admin: boolean = false){
+    this.service.unblock(id, unblock, admin).subscribe(
       (res: any) => {
         if(res.status){
           basicAlert(TYPE_ALERT.SUCCESS, res.message)
@@ -152,7 +171,14 @@ export class UsersComponent implements OnInit {
         (res: any) => {
           console.log(res);
           if(res.status){
-            basicAlert(TYPE_ALERT.SUCCESS, res.message);
+            this.service.sendEmailActive(res.user.id, user.email).subscribe(
+              resEmail => {
+                (resEmail.status) ?
+                basicAlert(TYPE_ALERT.SUCCESS, resEmail.message):
+                basicAlert(TYPE_ALERT.WARNING, resEmail.message)
+                ;
+              }
+            );
             return;
           }
           basicAlert(TYPE_ALERT.WARNING, res.message);
