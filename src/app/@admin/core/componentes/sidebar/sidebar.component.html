@@ -6,6 +6,15 @@
         </a>
     </div>
     <div class="list-group list-group-flush">
+        <a
+            *ngFor="let item of menuItems"
+          [routerLink]="item.url"
+           routerLinkActive="router-link-active"
+           class="list-group-item list-group-item-action bg-light"
+        >
+          <i class="{{item.icon}}"></i> {{item.label}}
+        </a>
+        <!--
         <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active" class="list-group-item list-group-item-action bg-light">
             <i class="fas fa-columns"></i> Dashboard
         </a>
@@ -15,6 +24,7 @@
         <a [routerLink]="['/admin/genres']" routerLinkActive="router-link-active" class="list-group-item list-group-item-action bg-light">
           <i class="fas fa-atlas"></i> genres
         </a>
+        -->
     </div>
 </div>
 <!-- /#sidebar-wrapper -->

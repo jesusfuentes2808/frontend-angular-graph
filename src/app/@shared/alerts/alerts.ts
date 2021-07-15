@@ -110,3 +110,18 @@ export async function  optionsWithDetails(
 }
 
 
+export const loadData = (title, html) => {
+  Swal.fire({
+    title,
+    html,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  })
+}
+
+export const closeAlert = () => {
+  Swal.close();
+}

@@ -7,6 +7,7 @@ import productsList from '@data/products.json';
 import {IProduct} from '@mugan86/ng-shop-ui/lib/interfaces/product.interface'
 import {ProductsService} from "@core/services/products.service";
 import {ACTIVE_FILTERS} from "@core/constants/filters";
+import {closeAlert, loadData} from "@shared/alerts/alerts";
 
 @Component({
   selector: 'app-home',
@@ -20,37 +21,52 @@ export class HomeComponent implements OnInit {
   listOne;
   listTwo;
   listTrhee;
+  loading:boolean;
 
-  constructor(private authApi: AuthService, private usersApi: UsersService, private prodductsApi: ProductsService) { }
+  constructor(private authApi: AuthService, private usersApi: UsersService, private productsApi: ProductsService) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.productsList = productsList;
+    loadData('Cargando datos', 'Espera mientras carga la información');
+    this.productsApi.getHomePage().subscribe(data => {
+      this.listOne=data.ps4;
+      this.listTwo=data.topPrice35;
+      this.listTrhee=data.pc;
+      this.items = this.manageCarousel(data.carousel);
+      this.loading = false;
+      closeAlert();
+    });
     //this.items = carouselItems;
-    this.prodductsApi
+    /*this.prodductsApi
         .getByUnitsOffers(1,4,ACTIVE_FILTERS.ACTIVE, true, 35, 40)
-        .subscribe(result => {
+        .subscribe(data => {
           console.log("Productos a menos de 40");
-          this.listTrhee = result;
+          this.listTrhee = data.result;
         });
 
     this.prodductsApi
-      .getByPlatform(1,4,ACTIVE_FILTERS.ACTIVE, true, '18')
-      .subscribe(result => {
+      .getByPlatform(1,4,ACTIVE_FILTERS.ACTIVE, true, ['18'])
+      .subscribe(data => {
         console.log("Productos PlayStation");
-        this.listOne = result;
+        this.listOne = data.result;
       });
 
     this.prodductsApi
-      .getByPlatform(1,4,ACTIVE_FILTERS.ACTIVE, true, '4')
-      .subscribe(result => {
+      .getByPlatform(1,4,ACTIVE_FILTERS.ACTIVE, true, ['4'])
+      .subscribe(data => {
         console.log("Productos PlayStation");
-        this.listTwo = result;
+        this.listTwo = data.result;
       });
 
     this.prodductsApi.getByUnitsOffers(
-      1,5,ACTIVE_FILTERS.ACTIVE, true, -1, 20
-    ).subscribe( (result: IProduct[]) => {
-      result.map((item: IProduct) => {
+      1,5,ACTIVE_FILTERS.ACTIVE, true,
+      -1,
+      20,
+      false,
+      true,
+    ).subscribe( (data) => {
+      data.result.map((item: IProduct) => {
         this.items.push({
           id: item.id,
           title: item.name,
@@ -59,7 +75,7 @@ export class HomeComponent implements OnInit {
           url: ''
         });
       })
-    });
+    });*/
 
     //this.listOne = this.fakeRandomProductList();
     //this.listTwo = this.fakeRandomProductList();
@@ -80,6 +96,22 @@ export class HomeComponent implements OnInit {
   addToCart($event: IProduct) {
     // Usar la información del producto pasado para llevarlo al carrito de compra
     console.log($event);
+  }
+
+  private manageCarousel(list){
+    const itemsValues: Array<ICarouselItem> = [];
+    list.map( (item) => {
+      console.log(item);
+      itemsValues.push({
+        id: item.id,
+        title: item.product.name,
+        description: item.platform.description,
+        background: item.product.img,
+        url: ''
+      });
+    })
+
+    return itemsValues;
   }
 
   showProductDetails($event: IProduct) {

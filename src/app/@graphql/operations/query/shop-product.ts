@@ -1,13 +1,15 @@
 import gql from 'graphql-tag';
-
+import {RESULT_INFO_FRAGMENT} from '../fragment/result-info'
 export const SHOP_LAST_UNITS_OFFERS = gql`
   query productoPorOfertayStock(
-    $page: Int
-    $itemsPage: Int
-    $active: ActiveFilterEnum
+    $page: Int,
+    $itemsPage: Int,
+    $active: ActiveFilterEnum,
     $random: Boolean,
     $topPrice: Float,
-    $lastUnits: Int
+    $lastUnits: Int,
+    $showInfo: Boolean = false,
+    $showPlatform: Boolean =true,
   ){
     shopProductsOfferLast(
       page: $page,
@@ -18,10 +20,8 @@ export const SHOP_LAST_UNITS_OFFERS = gql`
       random:$random){
       status
       message
-      info {
-        itemsPage
-        total
-        pages
+      info @include(if: $showInfo) {
+        ...ResultInfoObject
       }
       shopProducts {
         id
@@ -48,7 +48,7 @@ export const SHOP_LAST_UNITS_OFFERS = gql`
           }
           screenshoot
         }
-        platform {
+        platform @include(if: $showPlatform){
           id
           name
           slug
@@ -57,15 +57,18 @@ export const SHOP_LAST_UNITS_OFFERS = gql`
       }
     }
   }
+  ${RESULT_INFO_FRAGMENT}
 `;
 
 export const SHOP_PRODUCT_BY_PLATFORM = gql`
   query shopProductsPlatforms(
-  $page: Int
-  $itemsPage: Int
-  $active: ActiveFilterEnum
-  $random: Boolean
-  $platform: ID!
+  $page: Int,
+  $itemsPage: Int,
+  $active: ActiveFilterEnum,
+  $random: Boolean,
+  $platform: [ID!]!,
+    $showInfo: Boolean = false,
+    $showPlatform: Boolean =false,
 ) {
   shopProductsPlatforms(
     page: $page,
@@ -75,10 +78,8 @@ export const SHOP_PRODUCT_BY_PLATFORM = gql`
     random: $random) {
     status
     message
-    info {
-      itemsPage
-      total
-      pages
+    info @include(if: $showInfo) {
+      ...ResultInfoObject
     }
     shopProducts {
       id
@@ -105,7 +106,7 @@ export const SHOP_PRODUCT_BY_PLATFORM = gql`
         }
         screenshoot
       }
-      platform {
+      platform @include(if: $showPlatform){
         id
         name
         slug
@@ -113,4 +114,6 @@ export const SHOP_PRODUCT_BY_PLATFORM = gql`
       }
     }
   }
-}`;
+}
+  ${RESULT_INFO_FRAGMENT}
+`;

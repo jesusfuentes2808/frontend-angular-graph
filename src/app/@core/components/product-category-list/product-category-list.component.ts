@@ -9,6 +9,7 @@ import {IProduct} from "@mugan86/ng-shop-ui/lib/interfaces/product.interface";
 export class ProductCategoryListComponent implements OnInit {
   @Input() title = 'Título de catgoría';
   @Input() productList: Array<IProduct> = [];
+  @Input() description = '';
 
   constructor() { }
 
