@@ -2,10 +2,15 @@ import {Injectable} from '@angular/core';
 import {ApiService} from "@graphql/services/api.service";
 import {Apollo} from "apollo-angular";
 import {ACTIVE_FILTERS} from "@core/constants/filters";
-import {SHOP_LAST_UNITS_OFFERS, SHOP_PRODUCT_BY_PLATFORM} from "@graphql/operations/query/shop-product";
+import {
+  SHOP_LAST_UNITS_OFFERS,
+  SHOP_PRODUCT_BY_PLATFORM,
+  SHOP_PRODUCT_DETAILS, SHOP_PRODUCT_RANDOM_ITEMS,
+} from "@graphql/operations/query/shop-product";
 import {map} from "rxjs/operators";
 import {IProduct} from "@mugan86/ng-shop-ui/lib/interfaces/product.interface";
 import {HOME_PAGE} from "@graphql/operations/fragment/home-page";
+import {randomItems} from "../../../../../meang-backend/src/lib/lib-operations";
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +100,39 @@ export class ProductsService extends ApiService{
         info: data.info,
         result: this.manageInfo(data.shopProducts),
       }
+    }));
+  }
+
+  getItem(id: number){
+    return this.get(
+      SHOP_PRODUCT_DETAILS,
+      {
+      id
+    }).pipe(map( (result:any) => {
+      const shopObject = result.shopProductDetails.shopProduct;
+
+      return {
+        product: {
+          id: shopObject.id,
+          img: shopObject.product.img,
+          name: shopObject.product.name,
+          rating: shopObject.product.rating,
+          description: (shopObject.platform)? shopObject.platform.name: '',
+          qty: 1,
+          price: shopObject.price,
+          stock: shopObject.stock,
+        },
+        screens: shopObject.product.screenshoot,
+        relational: shopObject.relationalProducts,
+      };
+    }))
+  }
+
+  getRandomItems(){
+    return this.get(SHOP_PRODUCT_RANDOM_ITEMS).pipe(map((result: any)=>{
+      const data = result.randomItems.shopProducts;
+      console.log(result);
+      return this.manageInfo(data);
     }));
   }
 

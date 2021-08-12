@@ -44,7 +44,7 @@ export class GamesComponent implements OnInit {
 
       this.selectPage = 1;
       this.loadData();
-    })
+    });
   }
 
   loadData() {

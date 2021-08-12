@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
         title: item.product.name,
         description: item.platform.description,
         background: item.product.img,
-        url: ''
+        url: '/games/details/'.concat(item.id)
       });
     })
 

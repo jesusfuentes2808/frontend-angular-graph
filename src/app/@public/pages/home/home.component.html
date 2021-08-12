@@ -1,9 +1,9 @@
 <div class="container-fluid" *ngIf="!loading">
 <shop-carousel-items [items]="items"></shop-carousel-items>
 <div class="container">
-  <app-product-category-list [title]="'Juegos de PC'" [productList]="listOne"></app-product-category-list>
-  <app-product-category-list [title]="'Juegos recientes'" [productList]="listTwo"></app-product-category-list>
-  <app-product-category-list [title]="'Juegos novedosos'" [productList]="listTrhee"></app-product-category-list>
+  <app-product-category-list [title]="'Juegos de PC'" [productList]="listOne" [showDesc]="true"></app-product-category-list>
+  <app-product-category-list [title]="'Juegos recientes'" [productList]="listTwo" [showDesc]="true"></app-product-category-list>
+  <app-product-category-list [title]="'Juegos novedosos'" [productList]="listTrhee" [showDesc]="true"></app-product-category-list>
 </div>
 </div>
 <div id="main" *ngIf="loading">

@@ -1,0 +1,53 @@
+.container{
+  margin-top: 25px;
+}
+
+.mini{
+  margin-top: 10px;
+}
+
+.price{
+  font-size: 22px;
+  font-width: 800;
+  color: #cc1c39;
+  text-align: left;
+  margin-left: 5px;
+  margin-bottom: 12px;
+}
+
+.price span{
+  font-size: 18px;
+  font-weight: 400;
+  color: #999999;
+  margin-left: 5px;
+  margin-bottom: 12px;
+  text-decoration: line-through;
+}
+
+.price span.discount-percentage{
+  text-decoration: none;
+}
+
+
+.more-games{
+  height: 100%;
+  max-height: 105px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  width: 100%;
+}
+
+.main-img{
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  #screens-section{
+    display: none;
+  }
+}

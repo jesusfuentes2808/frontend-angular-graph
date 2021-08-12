@@ -44,6 +44,11 @@ const routes: Routes = [
           import('./forms/change-password/change-password.module').then(m => m.ChangePasswordModule)
       },
       {
+        path: `games/details/:id`,
+        loadChildren: () =>
+          import('./games/details/details.module').then(m => m.DetailsModule)
+      },
+      {
         path: `games/:type/:filter`,
         loadChildren: () =>
           import('./games/games.module').then(m => m.GamesModule)
