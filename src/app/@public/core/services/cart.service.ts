@@ -72,8 +72,8 @@ export class CartService {
   }
 
   checkoutTotal(){
-    this.cart.total = this.cart.products.reduce((previousValue, currentValue) => +previousValue + currentValue.qty, 0 );
-    this.cart.subtotal = this.cart.products.reduce((previousValue, currentValue) => +previousValue + (currentValue.price * currentValue.qty), 0 );
+    this.cart.subtotal = this.cart.products.reduce((previousValue, currentValue) => +previousValue + currentValue.qty, 0 );
+    this.cart.total = this.cart.products.reduce((previousValue, currentValue) => +previousValue + (currentValue.price * currentValue.qty), 0 );
 
     this.setInfo();
     return this.cart;

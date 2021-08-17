@@ -39,14 +39,18 @@ export class AuthService extends ApiService{
           return;
         }
         this.updateSession(result);
-      });
-      this.updateSession({
-        status: false
+        return;
       });
       console.log('sesión iniciada');
       return;
     }
+
+    this.updateSession({
+      status: false
+    });
     console.log('sesión no iniciada');
+    return;
+
   }
 
   getMe(){

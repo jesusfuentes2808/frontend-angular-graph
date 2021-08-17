@@ -3,6 +3,8 @@ import {CartService} from "@shop/core/services/cart.service";
 import {ICart} from "@shop/core/components/shopping-cart/shopping-cart.interface";
 import {IProduct} from "@mugan86/ng-shop-ui/lib/interfaces/product.interface";
 import {CURRENCIES_SYMBOL} from "@mugan86/ng-shop-ui";
+import {Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-shopping-cart',
@@ -13,7 +15,7 @@ export class ShoppingCartComponent implements OnInit {
   cart: ICart;
   currencySelect = CURRENCIES_SYMBOL['USD'];
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private router: Router) {
     this.cartService.itemsVar$.subscribe((data: ICart) => {
       console.log("CAMBIO EN SUSCRIBE")
       if(data !== undefined && data !== null){
@@ -36,7 +38,8 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   process(){
-
+    this.router.navigate(['/checkout']);
+    this.closeNav();
   }
 
   changeValue(qty: number, product: IProduct){
