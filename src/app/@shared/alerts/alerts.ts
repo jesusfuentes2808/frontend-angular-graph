@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import {EMAIL_PATTERN} from "@core/constants/regex";
+import {TYPE_ALERT} from "@shared/alerts/values.config";
 
 const swalWithBasicOptions = (title, html) => Swal.mixin({
   title,
@@ -118,6 +119,19 @@ export const loadData = (title, html) => {
     timerProgressBar: true,
     didOpen: () => {
       Swal.showLoading();
+    }
+  })
+}
+
+export const infoEventAlert = async (title, html, typeAlert= TYPE_ALERT.WARNING) => {
+  return await Swal.fire({
+    title,
+    html,
+    icon: typeAlert,
+    timer: 2000,
+    timerProgressBar: true,
+    preConfirm: () => {
+      return true;
     }
   })
 }
